@@ -14,6 +14,7 @@ I use Vulcade92 / AlphaBit version, repacked by MixMods (Junior_Djjr).
 ### 2022-08-17
 - Add option to disable blips. [See [RBRD.ini](CLEO/RBRD.ini)]
 - Use CLEO+ [ADD_CLEO_BLIP](https://library.sannybuilder.com/#/sa/CLEO%2B/0E2A) to avoid stray blips.
+- Add delay for More Radar Icons to create Donuts blips before disabling access.
 
 ## Authors
 
