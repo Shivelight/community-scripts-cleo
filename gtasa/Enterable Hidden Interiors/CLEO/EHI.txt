@@ -127,6 +127,22 @@ jf @EHIMISS_462
 07FB: set_interior 'E_LVBAN' access 1 
 07FB: set_interior 'E_NBAN' access 1 
 07FB: set_interior 'E_EBAN' access 1 
+
+{
+  Fix Doberman mission issue where player can't go out from Ammu-Nation.
+  Problem 1: The initial access state for AMMUN4 or any other variant is disabled. I don't know why exactly
+             the entrance is enabled when the exit is disabled.
+  Problem 2: The mission script disable all Ammu-Nation (AMMUN1-AMMUN5) access with set_interior calls
+             when the mission fail. The ENEX marker can only be recovered when player passed the mission,
+             this is because the mission script only enable access for AMMUN1 when the mission start.
+             EHI is replacing AMMUN1 to AMMUN4 for Ammu-Nation in the Market area (Doberman).
+  Solution : Force enable AMMUN4 access, but only do it off mission. Meaning player have access to Ammu-Nation
+             from the start, whatever this is good enough.
+  - Shivelight
+  #FIX #NOTE #README
+}
+07FB: set_interior 'AMMUN4' access 1
+  
 31@ = 1 
 jump @EHIMISS_462 
 

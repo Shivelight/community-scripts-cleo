@@ -12,4 +12,5 @@ I use Junior_Djjr's unofficial 4.3 version as the base.
 
 ## Authors
 
--  artginPL (Original Author)
+- artginPL (Original Author)
+- Junior_Djjr (Fixes and Improvements)
