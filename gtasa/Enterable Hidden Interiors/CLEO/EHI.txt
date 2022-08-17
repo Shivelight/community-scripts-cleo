@@ -1,0 +1,689 @@
+{$CLEO .cs}
+
+0000: NOP 
+// don't add this thing on screen for every person that uses scrdebug
+//0662: printstring "Enterable Hidden Interiors V4.3" 
+//0662: printstring "MOD BY artginPL" 
+goto @jumpcredits
+hex
+// here is a better way to add credits to file, I don't why btw, since you can just write this by comment (like this)
+"Enterable Hidden Interiors V4.3 MOD BY artginPL" 
+end
+:jumpcredits 
+script_name 'EHI'
+
+:EHI_67
+wait 0 
+if 
+   Player.Defined($PLAYER_CHAR)
+jf @EHI_67 
+if 
+   not 0@ == 1 
+jf @EHIDOH 
+if 
+   not 0@ == 2 
+jf @EHIINT 
+if 
+   not 0@ == 3 
+jf @EHIMISS 
+if 
+   not 0@ == 4 
+jf @EHIGAT 
+if 
+   not 0@ == 5 
+jf @EHIDES 
+if 
+   not 0@ == 6 
+jf @EHIELE 
+jump @EHI_202 
+
+:EHI_202
+wait 0 //ignore first frame load game (that then reloads the game)
+
+// this should not delay (you also don't need to delay it), to make it compatible with More Radar Icons mod
+07FB: set_interior 'DINER1' access 1  // Diner
+07FB: set_interior 'DINER2' access 1  // Diner
+07FB: set_interior 'REST2' access 1  // Secret Valley
+07FB: set_interior 'FDREST1' access 1  // World of Coq
+07FB: set_interior 'TSDINER' access 1  // Truck Stop
+ 
+stream_custom_script "EHI.CS" 1 
+wait 50 
+stream_custom_script "EHI.CS" 2 
+wait 100 
+stream_custom_script "EHI.CS" 3 
+wait 100 
+stream_custom_script "EHI.CS" 4 
+wait 100 
+stream_custom_script "EHI.CS" 5 
+wait 100 
+stream_custom_script "EHI.CS" 6 
+wait 100 
+terminate_this_custom_script 
+
+:EHIDOH
+script_name 'EHIDOH' 
+0@ = 0 
+wait 500 
+0@ = 22 
+0@ *= 216 
+0@ += 9879624 
+0@ += 78 
+write_memory 0@ 1 40 0 
+terminate_this_custom_script 
+
+:EHIINT
+script_name 'EHIINT' 
+0@ = 0   
+wait 7000
+07FB: set_interior 'PAPER' access 1  // Planning Department
+07FB: set_interior 'PDOMES' access 1  // The Pleasure Domes
+07FB: set_interior 'PDOMES2' access 1  // The Pleasure Domes
+07FB: set_interior 'LACRAK' access 1  // Crack Den
+07FB: set_interior 'GANG' access 1  // Vagos Gang House
+07FB: set_interior 'ABATOIR' access 1  // Sindacco Abattoir
+terminate_this_custom_script 
+
+:EHIMISS
+script_name 'EHIMISS' 
+0@ = 0 
+31@ = 0 
+
+:EHIMISS_25
+wait 500 
+if 
+   Player.Defined($PLAYER_CHAR)
+jf @EHIMISS_25 
+if and
+  $ONMISSION == 0 
+  31@ == 0 
+jf @EHIMISS_462 
+07FB: set_interior 'E_SWEET' access 1 
+07FB: set_interior 'E_RYDER' access 1 
+07FB: set_interior 'E_OGLOC' access 1 
+07FB: set_interior 'E_WUZIB' access 1 
+07FB: set_interior 'E_BDUP' access 1 
+07FB: set_interior 'E_BDUP1' access 1 
+07FB: set_interior 'E_STUDI' access 1 
+07FB: set_interior 'E_AIRP2' access 1 
+07FB: set_interior 'E_SHAMA' access 1 
+07FB: set_interior 'E_SHALC' access 1 
+07FB: set_interior 'E_LCMB' access 1 
+07FB: set_interior 'E_GF1' access 1 
+07FB: set_interior 'E_GF2' access 1 
+07FB: set_interior 'E_GF3' access 1 
+07FB: set_interior 'E_GF4' access 1 
+07FB: set_interior 'E_GF5' access 1 
+07FB: set_interior 'E_GF6' access 1 
+07FB: set_interior 'E_CAMPI' access 1 
+07FB: set_interior 'E_FDC' access 1 
+07FB: set_interior 'E_JANIT' access 1 
+07FB: set_interior 'E_CALIG' access 1 
+07FB: set_interior 'BIKESCH' access 1  // Bike School
+07FB: set_interior 'SVLABIG' access 1  // Safe House
+07FB: set_interior 'E_BROTH' access 1 
+07FB: set_interior 'E_SAYON' access 1 
+07FB: set_interior 'E_BOGST' access 1 
+07FB: set_interior 'E_LVBAN' access 1 
+07FB: set_interior 'E_NBAN' access 1 
+07FB: set_interior 'E_EBAN' access 1 
+31@ = 1 
+jump @EHIMISS_462 
+
+:EHIMISS_462
+if and
+  $ONMISSION == 1 
+  31@ == 1 
+jf @EHIMISS_25 
+07FB: set_interior 'E_SWEET' access 0 
+07FB: set_interior 'E_RYDER' access 0 
+07FB: set_interior 'E_OGLOC' access 0 
+07FB: set_interior 'E_WUZIB' access 0 
+07FB: set_interior 'E_BDUP' access 0 
+07FB: set_interior 'E_BDUP1' access 0 
+07FB: set_interior 'E_STUDI' access 0 
+07FB: set_interior 'E_AIRP2' access 0 
+07FB: set_interior 'E_SHAMA' access 0 
+07FB: set_interior 'E_SHALC' access 0 
+07FB: set_interior 'E_LCMB' access 0 
+07FB: set_interior 'E_GF1' access 0 
+07FB: set_interior 'E_GF2' access 0 
+07FB: set_interior 'E_GF3' access 0 
+07FB: set_interior 'E_GF4' access 0 
+07FB: set_interior 'E_GF5' access 0 
+07FB: set_interior 'E_GF6' access 0 
+07FB: set_interior 'E_CAMPI' access 0 
+07FB: set_interior 'E_FDC' access 0 
+07FB: set_interior 'E_JANIT' access 0 
+07FB: set_interior 'E_CALIG' access 0 
+07FB: set_interior 'BIKESCH' access 0  // Bike School
+07FB: set_interior 'SVLABIG' access 0  // Safe House
+07FB: set_interior 'E_BROTH' access 0 
+07FB: set_interior 'E_SAYON' access 0 
+07FB: set_interior 'E_BOGST' access 0 
+07FB: set_interior 'E_LVBAN' access 0 
+07FB: set_interior 'E_NBAN' access 0 
+07FB: set_interior 'E_EBAN' access 0 
+31@ = 0 
+jump @EHIMISS_25 
+
+:EHIGAT
+script_name 'EHIGAT' 
+0@ = 0 
+
+:EHIGAT_18
+wait 500 
+if 
+   Player.Defined($PLAYER_CHAR)
+jf @EHIGAT_18 
+Garage.Open('HBGDSFS')
+jump @EHIGAT_57 
+
+:EHIGAT_57
+wait 100 
+if 
+0154:   actor $PLAYER_ACTOR in_zone 'REST'  // Restricted Area
+jf @EHIGAT_1058 
+if 
+  31@ == 0 
+jf @EHIGAT_281 
+Model.Load(985)
+Model.Load(986)
+if and
+   Model.Available(985)
+   Model.Available(986)
+jf @EHIGAT_57 
+Object.Create(1@, 985, 139.075, 1941.32, 18.335)
+Object.Angle(1@) = 0.0
+Object.Create(2@, 986, 131.115, 1941.32, 18.335)
+Object.Angle(2@) = 0.0
+Object.Create(3@, 985, 285.641, 1817.41, 16.651)
+Object.Angle(3@) = 270.0
+Object.Create(4@, 986, 285.641, 1825.37, 16.651)
+Object.Angle(4@) = 270.0
+31@ = 1 
+jump @EHIGAT_281 
+
+:EHIGAT_281
+if 
+00EC:   actor $PLAYER_ACTOR sphere 0 near_point 135.095 1941.32 radius 8.0 15.0 
+jf @EHIGAT_400 
+034E: move_object 1@ to 145.475 1941.32 18.335 speed 0.1 0.0 0.0 collision_check 0 
+034E: move_object 2@ to 124.715 1941.32 18.335 speed 0.1 0.0 0.0 collision_check 0 
+jump @EHIGAT_481 
+
+:EHIGAT_400
+034E: move_object 1@ to 139.075 1941.32 18.335 speed 0.1 0.0 0.0 collision_check 0 
+034E: move_object 2@ to 131.115 1941.32 18.335 speed 0.1 0.0 0.0 collision_check 0 
+jump @EHIGAT_481 
+
+:EHIGAT_481
+if 
+00EC:   actor $PLAYER_ACTOR sphere 0 near_point 285.641 1821.39 radius 15.0 7.0 
+jf @EHIGAT_600 
+034E: move_object 3@ to 285.641 1811.81 16.651 speed 0.0 0.1 0.0 collision_check 0 
+034E: move_object 4@ to 285.641 1830.97 16.651 speed 0.0 0.1 0.0 collision_check 0 
+jump @EHIGAT_681 
+
+:EHIGAT_600
+034E: move_object 3@ to 285.641 1817.41 16.651 speed 0.0 0.1 0.0 collision_check 0 
+034E: move_object 4@ to 285.641 1825.37 16.651 speed 0.0 0.1 0.0 collision_check 0 
+jump @EHIGAT_681 
+
+:EHIGAT_681
+if and
+03CA:   object $2670 exists 
+  $ONMISSION == 0 
+jf @EHIGAT_830 
+if 
+00EC:   actor $PLAYER_ACTOR sphere 0 near_point 269.081 1884.109 radius 8.0 8.0 
+jf @EHIGAT_786 
+034E: move_object $2670 to 276.14 1884.06 15.924 speed 0.05 0.0 0.0 collision_check 0 
+jump @EHIGAT_830 
+
+:EHIGAT_786
+034E: move_object $2670 to 268.664 1884.06 15.925 speed 0.05 0.0 0.0 collision_check 0 
+jump @EHIGAT_830 
+
+:EHIGAT_830
+if and
+03CA:   object $Object_M_A51_BLASTDOORL exists 
+03CA:   object $Object_M_A51_BLASTDOORR exists 
+  $ONMISSION == 0 
+jf @EHIGAT_57 
+if 
+00EC:   actor $PLAYER_ACTOR sphere 0 near_point 213.882 1874.571 radius 5.0 9.0 
+jf @EHIGAT_977 
+034E: move_object $Object_M_A51_BLASTDOORL to 207.842 1874.571 13.903 speed 0.05 0.0 0.0 collision_check 0 
+034E: move_object $Object_M_A51_BLASTDOORR to 219.941 1874.571 13.903 speed 0.05 0.0 0.0 collision_check 0 
+jump @EHIGAT_57 
+
+:EHIGAT_977
+034E: move_object $Object_M_A51_BLASTDOORL to 211.842 1874.571 13.903 speed 0.05 0.0 0.0 collision_check 0 
+034E: move_object $Object_M_A51_BLASTDOORR to 215.941 1874.571 13.903 speed 0.05 0.0 0.0 collision_check 0 
+jump @EHIGAT_57 
+
+:EHIGAT_1058
+if 
+  31@ == 1 
+jf @EHIGAT_1110 
+Object.Destroy(1@)
+Object.Destroy(2@)
+Object.Destroy(3@)
+Object.Destroy(4@)
+31@ = 0 
+jump @EHIGAT_1110 
+
+:EHIGAT_1110
+if and
+00EC:   actor $PLAYER_ACTOR sphere 0 near_point -2038.821 178.833 radius 150.0 150.0 
+  $ONMISSION == 0 
+jf @EHIGAT_1223 
+if 
+is_key_pressed 187 
+jf @EHIGAT_1189 
+Garage.Open('HBGDSFS')
+jump @EHIGAT_1223 
+
+:EHIGAT_1189
+if 
+is_key_pressed 189 
+jf @EHIGAT_1223 
+Garage.Close('HBGDSFS')
+jump @EHIGAT_1223 
+
+:EHIGAT_1223
+if and
+03CA:   object $5290 exists 
+  $ONMISSION == 0 
+jf @EHIGAT_1376 
+if and
+is_key_pressed 187 
+is_key_pressed 220 
+jf @EHIGAT_1311 
+034E: move_object $5290 to -1468.492 501.289 11.109 speed 0.015 0.0 0.05 collision_check 0 
+jump @EHIGAT_1376 
+
+:EHIGAT_1311
+if and
+is_key_pressed 189 
+is_key_pressed 220 
+jf @EHIGAT_1376 
+034E: move_object $5290 to -1465.797 501.289 1.145 speed 0.015 0.0 0.05 collision_check 0 
+jump @EHIGAT_1376 
+
+:EHIGAT_1376
+if and
+03CA:   object $5291 exists 
+  $ONMISSION == 0 
+jf @EHIGAT_1529 
+if and
+is_key_pressed 189 
+is_key_pressed 219 
+jf @EHIGAT_1464 
+034E: move_object $5291 to -1414.453 516.453 9.648 speed 0.0 0.0 0.05 collision_check 0 
+jump @EHIGAT_1529 
+
+:EHIGAT_1464
+if and
+is_key_pressed 187 
+is_key_pressed 219 
+jf @EHIGAT_1529 
+034E: move_object $5291 to -1414.453 516.453 16.688 speed 0.0 0.0 0.05 collision_check 0 
+jump @EHIGAT_1529 
+
+:EHIGAT_1529
+if and
+03CA:   object $5292 exists 
+  $ONMISSION == 0 
+jf @EHIGAT_1682 
+if and
+is_key_pressed 189 
+is_key_pressed 221 
+jf @EHIGAT_1617 
+034E: move_object $5292 to -1456.719 501.297 9.914 speed 0.0 0.0 0.05 collision_check 0 
+jump @EHIGAT_1682 
+
+:EHIGAT_1617
+if and
+is_key_pressed 187 
+is_key_pressed 221 
+jf @EHIGAT_1682 
+034E: move_object $5292 to -1456.719 501.297 16.953 speed 0.0 0.0 0.05 collision_check 0 
+jump @EHIGAT_1682 
+
+:EHIGAT_1682
+if and
+03CA:   object $2703 exists 
+  $ONMISSION == 0 
+jf @EHIGAT_57 
+if 
+00EC:   actor $PLAYER_ACTOR sphere 0 near_point 2168.644 1619.43 radius 3.0 2.0 
+jf @EHIGAT_1787 
+034E: move_object $2703 to 2168.644 1620.93 1000.3 speed 0.0 0.05 0.0 collision_check 0 
+jump @EHIGAT_57 
+
+:EHIGAT_1787
+034E: move_object $2703 to 2168.644 1619.43 1000.3 speed 0.0 0.05 0.0 collision_check 0 
+jump @EHIGAT_57 
+
+:EHIDES
+script_name 'EHIDES' 
+0@ = 0 
+
+:EHIDES_18
+wait 500 
+if 
+   Player.Defined($PLAYER_CHAR)
+jf @EHIDES_18 
+if and
+03CA:   object $Object_M_A51_VENTCOVERB exists 
+  $ONMISSION == 0 
+jf @EHIDES_74 
+Object.Destroy($Object_M_A51_VENTCOVERB)
+jump @EHIDES_74 
+
+:EHIDES_74
+if and
+03CA:   object $2662 exists 
+  $ONMISSION == 0 
+jf @EHIDES_109 
+Object.Destroy($2662)
+jump @EHIDES_109 
+
+:EHIDES_109
+if and
+03CA:   object $2663 exists 
+  $ONMISSION == 0 
+jf @EHIDES_144 
+Object.Destroy($2663)
+jump @EHIDES_144 
+
+:EHIDES_144
+if and
+03CA:   object $2664 exists 
+  $ONMISSION == 0 
+jf @EHIDES_18 
+Object.Destroy($2664)
+jump @EHIDES_18 
+
+:EHIELE
+script_name 'EHIELE' 
+0@ = 0 
+
+:EHIELE_18
+wait 500 
+if 
+   Player.Defined($PLAYER_CHAR)
+jf @EHIELE_18 
+if 
+80EC:   not actor $PLAYER_ACTOR sphere 0 near_point 1787.638 -1306.524 radius 50.0 50.0 
+jf @EHIELE_126 
+if 
+   not 1@ == 1 
+jf @EHIELE_18 
+1@ = 1 
+2@ = 1 
+3@ = 22.216 
+jump @EHIELE_18 
+
+:EHIELE_126
+wait 0 
+if and
+   not Actor.Dead($PLAYER_ACTOR)
+8741:   not actor $PLAYER_ACTOR busted 
+00EC:   actor $PLAYER_ACTOR sphere 0 near_point 1787.638 -1306.524 radius 50.0 50.0 
+jf @EHIELE_18 
+if 
+00FF:   actor $PLAYER_ACTOR sphere 1 in_sphere 1787.638 -1306.524 3@ radius 1.0 1.0 1.0 on_foot 
+jf @EHIELE_126 
+Player.CanMove($PLAYER_CHAR, False)
+03BF: set_player $PLAYER_CHAR ignored_by_everyone 1 
+03E5: show_text_box 'GYM1_60'  // Use ~k~~GO_FORWARD~ and ~k~~GO_BACK~ to select level.~N~~k~~PED_SPRINT~ Select~N~~k~~VEHICLE_ENTER_EXIT~ Quit
+jump @EHIELE_256 
+
+:EHIELE_256
+03F0: enable_text_draw 1 
+033F: set_text_draw_letter_size 0.6 2.6 
+0342: set_text_draw_centered 1 
+0344: set_text_draw_linewidth 70.0 for_centered_text 
+0345: enable_text_draw_background 1 
+045A: draw_text_1number 70.0 140.0 GXT 'NUMBER' number 1@  // ~1~
+wait 0 
+if and
+is_key_pressed 38 
+  19 > 1@ 
+jf @EHIELE_377 
+if 
+  TIMERB > 150 
+jf @EHIELE_256 
+1@ += 1 
+TIMERB = 0 
+jump @EHIELE_256 
+
+:EHIELE_377
+if and
+is_key_pressed 40 
+  1@ > 1 
+jf @EHIELE_439 
+if 
+  TIMERB > 150 
+jf @EHIELE_256 
+1@ -= 1 
+TIMERB = 0 
+jump @EHIELE_256 
+
+:EHIELE_439
+if 
+00E1:   player 0 pressed_key 16 
+jf @EHIELE_1527 
+if and
+  1@ == 1 
+   not 2@ == 1 
+jf @EHIELE_505 
+2@ = 1 
+3@ = 22.216 
+jump @EHIELE_1387 
+
+:EHIELE_505
+if and
+  1@ == 2 
+   not 2@ == 2 
+jf @EHIELE_554 
+2@ = 2 
+3@ = 27.672 
+jump @EHIELE_1387 
+
+:EHIELE_554
+if and
+  1@ == 3 
+   not 2@ == 3 
+jf @EHIELE_603 
+2@ = 3 
+3@ = 33.132 
+jump @EHIELE_1387 
+
+:EHIELE_603
+if and
+  1@ == 4 
+   not 2@ == 4 
+jf @EHIELE_652 
+2@ = 4 
+3@ = 38.578 
+jump @EHIELE_1387 
+
+:EHIELE_652
+if and
+  1@ == 5 
+   not 2@ == 5 
+jf @EHIELE_701 
+2@ = 5 
+3@ = 44.033 
+jump @EHIELE_1387 
+
+:EHIELE_701
+if and
+  1@ == 6 
+   not 2@ == 6 
+jf @EHIELE_750 
+2@ = 6 
+3@ = 49.445 
+jump @EHIELE_1387 
+
+:EHIELE_750
+if and
+  1@ == 7 
+   not 2@ == 7 
+jf @EHIELE_799 
+2@ = 7 
+3@ = 54.912 
+jump @EHIELE_1387 
+
+:EHIELE_799
+if and
+  1@ == 8 
+   not 2@ == 8 
+jf @EHIELE_848 
+2@ = 8 
+3@ = 60.359 
+jump @EHIELE_1387 
+
+:EHIELE_848
+if and
+  1@ == 9 
+   not 2@ == 9 
+jf @EHIELE_897 
+2@ = 9 
+3@ = 65.813 
+jump @EHIELE_1387 
+
+:EHIELE_897
+if and
+  1@ == 10 
+   not 2@ == 10 
+jf @EHIELE_946 
+2@ = 10 
+3@ = 71.273 
+jump @EHIELE_1387 
+
+:EHIELE_946
+if and
+  1@ == 11 
+   not 2@ == 11 
+jf @EHIELE_995 
+2@ = 11 
+3@ = 76.672 
+jump @EHIELE_1387 
+
+:EHIELE_995
+if and
+  1@ == 12 
+   not 2@ == 12 
+jf @EHIELE_1044 
+2@ = 12 
+3@ = 82.133 
+jump @EHIELE_1387 
+
+:EHIELE_1044
+if and
+  1@ == 13 
+   not 2@ == 13 
+jf @EHIELE_1093 
+2@ = 13 
+3@ = 87.586 
+jump @EHIELE_1387 
+
+:EHIELE_1093
+if and
+  1@ == 14 
+   not 2@ == 14 
+jf @EHIELE_1142 
+2@ = 14 
+3@ = 93.039 
+jump @EHIELE_1387 
+
+:EHIELE_1142
+if and
+  1@ == 15 
+   not 2@ == 15 
+jf @EHIELE_1191 
+2@ = 15 
+3@ = 98.501 
+jump @EHIELE_1387 
+
+:EHIELE_1191
+if and
+  1@ == 16 
+   not 2@ == 16 
+jf @EHIELE_1240 
+2@ = 16 
+3@ = 103.898 
+jump @EHIELE_1387 
+
+:EHIELE_1240
+if and
+  1@ == 17 
+   not 2@ == 17 
+jf @EHIELE_1289 
+2@ = 17 
+3@ = 109.359 
+jump @EHIELE_1387 
+
+:EHIELE_1289
+if and
+  1@ == 18 
+   not 2@ == 18 
+jf @EHIELE_1338 
+2@ = 18 
+3@ = 114.813 
+jump @EHIELE_1387 
+
+:EHIELE_1338
+if and
+  1@ == 19 
+   not 2@ == 19 
+jf @EHIELE_256 
+2@ = 19 
+3@ = 120.266 
+jump @EHIELE_1387 
+
+:EHIELE_1387
+03F0: enable_text_draw 0 
+0169: set_fade_color_RGB 0 0 0 
+fade 0 1000 
+wait 1000 
+04E4: refresh_game_renderer_at 1787.638 -1306.524 
+Camera.SetAtPos(1787.638, -1308.524, 3@)
+Actor.PutAt($PLAYER_ACTOR, 1787.638, -1308.524, 3@)
+Actor.Angle($PLAYER_ACTOR) = 180.0
+Camera.SetBehindPlayer
+wait 1000 
+fade 1 1000 
+jump @EHIELE_1487 
+
+:EHIELE_1487
+wait 100 
+if 
+   not fading 
+jf @EHIELE_1487 
+Player.CanMove($PLAYER_CHAR, True)
+03BF: set_player $PLAYER_CHAR ignored_by_everyone 0 
+Camera.Restore_WithJumpCut
+jump @EHIELE_126 
+
+:EHIELE_1527
+if 
+00E1:   player 0 pressed_key 15 
+jf @EHIELE_256 
+0085: 1@ = 2@ // (int) 
+Player.CanMove($PLAYER_CHAR, True)
+03BF: set_player $PLAYER_CHAR ignored_by_everyone 0 
+Camera.Restore_WithJumpCut
+jump @EHIELE_1575 
+
+:EHIELE_1575
+wait 100 
+if 
+80FF:   not actor $PLAYER_ACTOR sphere 1 in_sphere 1787.638 -1306.524 3@ radius 1.0 1.0 1.0 on_foot 
+jf @EHIELE_1575 
+jump @EHIELE_126 
