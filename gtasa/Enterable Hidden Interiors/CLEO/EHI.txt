@@ -384,44 +384,64 @@ jump @EHIGAT_57
 jump @EHIGAT_57 
 
 :EHIDES
+{ 
+  For whatever reason destroying global vars object ($Object_M_A51_VENTCOVERB, $2663, etc) is causing
+  the game to crash. Noticeably when doing mission Stowaway or Black Project or roaming around Bone County.
+  Solution: Move the objects instead of destroying it. Also restore the objects original state/position
+            to avoid bad save. 
+  - Shivelight
+  #FIX #NOTE #README
+}
 script_name 'EHIDES' 
 0@ = 0 
+0ED1: set_script_event_save_confirmation 1 label @EHIDES_RESTORE var_slot 7@
 
 :EHIDES_18
-wait 500 
+wait 5000 
 if 
    Player.Defined($PLAYER_CHAR)
 jf @EHIDES_18 
+{ Area 69 vent cover near 245.968 1862.843 24.0}
 if and
-03CA:   object $Object_M_A51_VENTCOVERB exists 
-  $ONMISSION == 0 
-jf @EHIDES_74 
-Object.Destroy($Object_M_A51_VENTCOVERB)
-jump @EHIDES_74 
-
-:EHIDES_74
-if and
-03CA:   object $2662 exists 
+03CA:   object $Object_M_A51_VENTCOVERB exists // #A51_VENTCOVERB at 245.968 1862.843 19.49 
   $ONMISSION == 0 
 jf @EHIDES_109 
-Object.Destroy($2662)
+01BC: put_object $Object_M_A51_VENTCOVERB at 245.968 1862.843 16.5
 jump @EHIDES_109 
 
 :EHIDES_109
+{ Palomino Creek Bank door near 2304.257 -17.744 25.742 }
 if and
-03CA:   object $2663 exists 
+03CA:   object $2663 exists // #CR_DOOR_03 at 2304.257 -14.583 25.742 
   $ONMISSION == 0 
 jf @EHIDES_144 
-Object.Destroy($2663)
+Object.Angle($2663) = -102.0 // original value is 180.0
 jump @EHIDES_144 
 
 :EHIDES_144
+{ Sindacco Counterfeit Chips Factory shutter near 1047.332 2089.128 10.820 }
 if and
-03CA:   object $2664 exists 
+03CA:   object $2664 exists // #SHUTTER_VEGAS at 1055.629 2087.67 12.469
   $ONMISSION == 0 
 jf @EHIDES_18 
-Object.Destroy($2664)
+01BC: put_object $2664 at 1055.629 2087.67 4.0
 jump @EHIDES_18 
+
+:EHIDES_RESTORE
+{ Restore the objects original state/position before saving. }
+if 03CA: object $Object_M_A51_VENTCOVERB exists
+then
+    01BC: put_object $Object_M_A51_VENTCOVERB at 245.968 1862.843 19.49
+end
+if 03CA: object $2663 exists
+then
+    Object.Angle($2663) = 180.0
+end
+if 03CA: object $2664 exists
+then
+    01BC: put_object $2664 at 1055.629 2087.67 12.469
+end
+return_script_event
 
 :EHIELE
 script_name 'EHIELE' 
