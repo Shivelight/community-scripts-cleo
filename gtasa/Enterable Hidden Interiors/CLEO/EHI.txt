@@ -1,4 +1,5 @@
 {$CLEO .cs}
+{$USE CLEO+}
 
 0000: NOP 
 // don't add this thing on screen for every person that uses scrdebug
@@ -186,6 +187,13 @@ jump @EHIMISS_25
 :EHIGAT
 script_name 'EHIGAT' 
 0@ = 0 
+{
+  Restore objects positions to avoid stray or bad positioned object
+  and close the garages.
+  - Shivelight
+  #FIX #NOTE #README
+}
+0ED1: set_script_event_save_confirmation 1 label @EHIGAT_RESTORE var_slot 7@
 
 :EHIGAT_18
 wait 500 
@@ -209,13 +217,19 @@ if and
    Model.Available(985)
    Model.Available(986)
 jf @EHIGAT_57 
-Object.Create(1@, 985, 139.075, 1941.32, 18.335)
+
+{
+  Use CLEO+ CREATE_OBJECT_NO_SAVE to avoid stray objects (bad save).
+  - Shivelight
+  #FIX #NOTE #README
+}
+0E01: create_object_no_save 985 at 139.075 1941.32 18.335 offset true ground true to 1@
 Object.Angle(1@) = 0.0
-Object.Create(2@, 986, 131.115, 1941.32, 18.335)
+0E01: create_object_no_save 986 at 131.115 1941.32 18.335 offset true ground true to 2@
 Object.Angle(2@) = 0.0
-Object.Create(3@, 985, 285.641, 1817.41, 16.651)
+0E01: create_object_no_save 985 at 285.641 1817.41 16.651 offset true ground true to 3@
 Object.Angle(3@) = 270.0
-Object.Create(4@, 986, 285.641, 1825.37, 16.651)
+0E01: create_object_no_save 986 at 285.641 1825.37 16.651 offset true ground true to 4@
 Object.Angle(4@) = 270.0
 31@ = 1 
 jump @EHIGAT_281 
@@ -291,26 +305,22 @@ Object.Destroy(4@)
 jump @EHIGAT_1110 
 
 :EHIGAT_1110
+{
+  Keep the Doherty garage open, it's easier to clean up.
+  - Shivelight
+  #FIX #NOTE #README
+}
 if and
-00EC:   actor $PLAYER_ACTOR sphere 0 near_point -2038.821 178.833 radius 150.0 150.0 
-  $ONMISSION == 0 
-jf @EHIGAT_1223 
-if 
-is_key_pressed 187 
-jf @EHIGAT_1189 
-Garage.Open('HBGDSFS')
-jump @EHIGAT_1223 
-
-:EHIGAT_1189
-if 
-is_key_pressed 189 
-jf @EHIGAT_1223 
-Garage.Close('HBGDSFS')
+  $ONMISSION == 0
+  Garage.IsClosed('HBGDSFS')
+then
+  Garage.Open('HBGDSFS')
+end
 jump @EHIGAT_1223 
 
 :EHIGAT_1223
 if and
-03CA:   object $5290 exists 
+03CA:   object $5290 exists  // #CARRIER_DOOR_SFSE at -1465.797 501.289 1.145 
   $ONMISSION == 0 
 jf @EHIGAT_1376 
 if and
@@ -330,7 +340,7 @@ jump @EHIGAT_1376
 
 :EHIGAT_1376
 if and
-03CA:   object $5291 exists 
+03CA:   object $5291 exists  // #CARRIER_LIFT2_SFSE at -1414.453 516.453 16.688
   $ONMISSION == 0 
 jf @EHIGAT_1529 
 if and
@@ -350,7 +360,7 @@ jump @EHIGAT_1529
 
 :EHIGAT_1529
 if and
-03CA:   object $5292 exists 
+03CA:   object $5292 exists  // #CARRIER_LIFT1_SFSE at -1456.719 501.297 16.953 
   $ONMISSION == 0 
 jf @EHIGAT_1682 
 if and
@@ -369,19 +379,24 @@ jf @EHIGAT_1682
 jump @EHIGAT_1682 
 
 :EHIGAT_1682
+{ Caligula's Basement door Open the door instead of moving it back and forth. }
 if and
-03CA:   object $2703 exists 
+03CA:   object $2703 exists  // #AB_CASDORLOK at 2168.644 1619.43 1000.3 
   $ONMISSION == 0 
 jf @EHIGAT_57 
-if 
-00EC:   actor $PLAYER_ACTOR sphere 0 near_point 2168.644 1619.43 radius 3.0 2.0 
-jf @EHIGAT_1787 
-034E: move_object $2703 to 2168.644 1620.93 1000.3 speed 0.0 0.05 0.0 collision_check 0 
+Object.Angle($2703) = 3.0  // original value is 270.0
 jump @EHIGAT_57 
 
-:EHIGAT_1787
-034E: move_object $2703 to 2168.644 1619.43 1000.3 speed 0.0 0.05 0.0 collision_check 0 
-jump @EHIGAT_57 
+:EHIGAT_RESTORE
+{ Restore objects/garages original positions/states before saving. }
+Garage.Close('HBGDSFS')
+
+if 03CA: object $2703 exists
+then
+  Object.Angle($2703) = 270.0
+end
+
+return_script_event
 
 :EHIDES
 { 
