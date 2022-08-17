@@ -8,7 +8,8 @@ wait 0
 if 
    Player.Defined($0[2])
 jf @RBRD_347 
-save_this_custom_script 
+save_this_custom_script
+wait 2000  // Delay for More Radar Icons
 07FB: set_interior 'FDDONUT' access 0  // Rusty Brown's
 28@ = 1 
 23@ = 1 
@@ -888,4 +889,3 @@ jf @RBRD_6553
 Actor.RemoveReferences(0@)
 Actor.DestroyInstantly(31@)
 jump @RBRD_6553 
-
