@@ -1,9 +1,7 @@
 // This file was decompiled using SASCM.ini published on 2021-07-05
 {$CLEO .cs}
 {$USE CLEO+}
-{$USE file}
 {$USE ini}
-{$USE newOpcodes}
 
 script_name "RBRD" 
 wait 0 
@@ -57,10 +55,19 @@ jf @RBRD_353
 
 :RBRD_375
 wait 0 
-Marker.CreateIconWithoutSphere(18@, 26@, -2767.733, 788.6822, 52.7812)
-Marker.CreateIconWithoutSphere(19@, 26@, 1038.255, -1339.729, 13.7266)
-Marker.CreateIconWithoutSphere(20@, 26@, -144.0858, 1224.369, 19.8992)
 07FB: set_interior 'FDDONUT' access 1  // Rusty Brown's
+{
+  Allow user to disable the blip icon for better compatibility with More Radar Icons.
+  Now using CLEO+ ADD_CLEO_BLIP to avoid any leftover / stray blips.
+  - Shivelight
+  #FIX #NOTE #README
+}
+if
+    26@ > -1
+jf @RBRD_468
+0E2A: add_cleo_blip 26@ position -2767.733 788.6822 is_short true RGBA 255 255 255 255 store_to 18@
+0E2A: add_cleo_blip 26@ position 1038.255 -1339.729 is_short true RGBA 255 255 255 255 store_to 19@
+0E2A: add_cleo_blip 26@ position  -144.0858 1224.369 is_short true RGBA 255 255 255 255 store_to 20@
 jump @RBRD_468 
 
 :RBRD_468
