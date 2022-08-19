@@ -1,4 +1,5 @@
 {$CLEO}
+{$USE ini}
 {
 	San Andreas Radar Zoom 1.0
 	Created by Silent
@@ -16,10 +17,17 @@ ADDRESS_3   = 6@
 ADDRESS_4   = 7@
 ADDRESS_5   = 8@
 GAME_VER_10 = 9@
+HOTKEY      = 10@
 TIMERA      = 32@
+END
 
-// Native constants required to compile this source
-VK_T        = 0x54
+{
+  Allow to change the zoom hotkey.
+  - Junior_Djjr
+}
+IF NOT read_int_from_ini_file HOTKEY = read_int_from_ini_file "cleo\zoom.ini" section "Settings" key "Key"
+THEN
+    HOTKEY = 0x54
 END
 
 // Since IS_GAME_VERSION_ORIGINAL is messed up in CLEO4 (returns false for 1.0 EU), we're gonna ship a workaround
@@ -68,7 +76,7 @@ ZOOM_INT = 180
 
 WHILE TRUE
     WAIT 0
-    IF IS_KEY_PRESSED VK_T
+    IF IS_KEY_PRESSED HOTKEY
     THEN
         TIMERA = 0
         ZOOM = 350.0
