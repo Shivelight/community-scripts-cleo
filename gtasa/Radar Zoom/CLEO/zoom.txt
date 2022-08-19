@@ -18,7 +18,15 @@ ADDRESS_4   = 7@
 ADDRESS_5   = 8@
 GAME_VER_10 = 9@
 HOTKEY      = 10@
+AREA_NAME   = 11@
+VEH_NAME    = 12@
+DURATION    = 13@
 TIMERA      = 32@
+END
+
+VAR
+    TIMERA : Integer
+    DURATION : Integer
 END
 
 {
@@ -28,6 +36,25 @@ END
 IF NOT read_int_from_ini_file HOTKEY = read_int_from_ini_file "cleo\zoom.ini" section "Settings" key "Key"
 THEN
     HOTKEY = 0x54
+END
+{
+  Allow to toggle area and vehicle name while zooming.
+  Allow to set zoom duration.
+  Note: Displaying vehicle name crashing the game when doing an oddjob (e.g. Medic).
+        Better to disable it by default.
+  - Shivelight
+}
+IF NOT read_int_from_ini_file AREA_NAME = read_int_from_ini_file "cleo\zoom.ini" section "Settings" key "ShowAreaName"
+THEN
+    AREA_NAME = TRUE
+END
+IF NOT read_int_from_ini_file VEH_NAME = read_int_from_ini_file "cleo\zoom.ini" section "Settings" key "ShowVehicleName"  
+THEN
+    VEH_NAME = FALSE
+END
+IF NOT read_int_from_ini_file DURATION = read_int_from_ini_file "cleo\zoom.ini" section "Settings" key "ZoomDuration"
+THEN
+    DURATION = 1000
 END
 
 // Since IS_GAME_VERSION_ORIGINAL is messed up in CLEO4 (returns false for 1.0 EU), we're gonna ship a workaround
@@ -85,18 +112,23 @@ WHILE TRUE
 
         // Make sure there is a zone name to display
         READ_MEMORY TEMP_VAR ADDRESS_1 4 FALSE
-        IF NOT TEMP_VAR == 0
+        IF AND
+            AREA_NAME == TRUE
+            NOT TEMP_VAR == 0
         THEN
             WRITE_MEMORY ADDRESS_3 4 1 FALSE // Zone name state
             WRITE_MEMORY ADDRESS_2 4 1500 FALSE // Zone name timer
         END
 
-        WRITE_MEMORY ADDRESS_4 4 1 FALSE // Vehicle name state
-        WRITE_MEMORY ADDRESS_5 4 1500 FALSE // Vehicle name timer
+        IF VEH_NAME == TRUE
+        THEN
+            WRITE_MEMORY ADDRESS_4 4 1 FALSE // Vehicle name state
+            WRITE_MEMORY ADDRESS_5 4 1500 FALSE // Vehicle name timer
+        END
     END
     IF ZOOM > 180.0
-    THEN
-        IF TIMERA > 1000
+    THEN 
+        IF TIMERA > DURATION
         THEN
             ZOOM -= 10.0
             ZOOM_CAR += 10.0
