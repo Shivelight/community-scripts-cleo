@@ -1,0 +1,112 @@
+{$CLEO}
+{
+	San Andreas Radar Zoom 1.0
+	Created by Silent
+
+    Based on Vice City Radar Zoom by spaceeinstein
+}
+CONST
+ZOOM        = 0@
+ZOOM_CAR    = 1@
+ZOOM_INT    = 2@
+TEMP_VAR    = 3@
+ADDRESS_1   = 4@
+ADDRESS_2   = 5@
+ADDRESS_3   = 6@
+ADDRESS_4   = 7@
+ADDRESS_5   = 8@
+GAME_VER_10 = 9@
+TIMERA      = 32@
+
+// Native constants required to compile this source
+VK_T        = 0x54
+END
+
+// Since IS_GAME_VERSION_ORIGINAL is messed up in CLEO4 (returns false for 1.0 EU), we're gonna ship a workaround
+READ_MEMORY TEMP_VAR 0x586C9B 4 FALSE
+IF TEMP_VAR == 180.0
+THEN
+    GAME_VER_10 = TRUE
+ELSE
+    GAME_VER_10 = FALSE
+END
+
+// Get all addresses we need (they differ between 1.0 & 1.01 AND between US & EU versions)
+IF GAME_VER_10 == TRUE
+THEN
+    READ_MEMORY ADDRESS_1 0x58AAC9 4 FALSE
+    READ_MEMORY ADDRESS_2 0x58AABD 4 FALSE
+    READ_MEMORY ADDRESS_3 0x58AAB7 4 FALSE
+    READ_MEMORY ADDRESS_4 0x58AEB0 4 FALSE
+    READ_MEMORY ADDRESS_5 0x58AEB6 4 FALSE
+ELSE
+    READ_MEMORY ADDRESS_1 0x58B299 4 FALSE
+    READ_MEMORY ADDRESS_2 0x58B28D 4 FALSE
+    READ_MEMORY ADDRESS_3 0x58B287 4 FALSE
+    READ_MEMORY ADDRESS_4 0x58B680 4 FALSE
+    READ_MEMORY ADDRESS_5 0x58B686 4 FALSE
+END
+
+// Modify SA code to use our vars for zooming - gonna save a lot of effort
+GET_THIS_SCRIPT_STRUCT TEMP_VAR
+TEMP_VAR += 0x3C  // Pointer to ZOOM
+IF GAME_VER_10 == TRUE
+THEN
+    WRITE_MEMORY 0x586C66 4 TEMP_VAR TRUE
+    TEMP_VAR += 0x4  // Pointer to ZOOM_CAR
+    WRITE_MEMORY 0x586C60 4 TEMP_VAR TRUE
+ELSE
+    WRITE_MEMORY 0x587436 4 TEMP_VAR TRUE
+    TEMP_VAR += 0x4  // Pointer to ZOOM_CAR
+    WRITE_MEMORY 0x587430 4 TEMP_VAR TRUE
+END
+
+// Initialise variables
+ZOOM = 180.0
+ZOOM_CAR = 283.3333
+ZOOM_INT = 180
+
+WHILE TRUE
+    WAIT 0
+    IF IS_KEY_PRESSED VK_T
+    THEN
+        TIMERA = 0
+        ZOOM = 350.0
+        ZOOM_CAR = 0
+        ZOOM_INT = 350
+
+        // Make sure there is a zone name to display
+        READ_MEMORY TEMP_VAR ADDRESS_1 4 FALSE
+        IF NOT TEMP_VAR == 0
+        THEN
+            WRITE_MEMORY ADDRESS_3 4 1 FALSE // Zone name state
+            WRITE_MEMORY ADDRESS_2 4 1500 FALSE // Zone name timer
+        END
+
+        WRITE_MEMORY ADDRESS_4 4 1 FALSE // Vehicle name state
+        WRITE_MEMORY ADDRESS_5 4 1500 FALSE // Vehicle name timer
+    END
+    IF ZOOM > 180.0
+    THEN
+        IF TIMERA > 1000
+        THEN
+            ZOOM -= 10.0
+            ZOOM_CAR += 10.0
+            ZOOM -= 10
+            IF 180.0 > ZOOM
+            THEN
+                ZOOM = 180.0
+                ZOOM_CAR = 283.3333
+                ZOOM_INT = 180
+            END
+        END
+    END
+    IF GAME_VER_10 == TRUE
+    THEN
+        WRITE_MEMORY 0x586C9B 4 ZOOM TRUE
+        WRITE_MEMORY 0x586C7F 4 ZOOM_INT TRUE
+    ELSE
+        WRITE_MEMORY 0x58746B 4 ZOOM TRUE
+        WRITE_MEMORY 0x58744F 4 ZOOM_INT TRUE
+    END
+END
