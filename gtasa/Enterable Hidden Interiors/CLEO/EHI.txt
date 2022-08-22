@@ -186,7 +186,8 @@ jump @EHIMISS_25
 
 :EHIGAT
 script_name 'EHIGAT' 
-0@ = 0 
+0@ = 0
+30@ = 0 
 {
   Restore objects positions to avoid stray or bad positioned object
   and close the garages.
@@ -379,12 +380,24 @@ jf @EHIGAT_1682
 jump @EHIGAT_1682 
 
 :EHIGAT_1682
-{ Caligula's Basement door Open the door instead of moving it back and forth. }
-if and
-03CA:   object $2703 exists  // #AB_CASDORLOK at 2168.644 1619.43 1000.3 
-  $ONMISSION == 0 
-jf @EHIGAT_57 
-Object.Angle($2703) = 3.0  // original value is 270.0
+{ Caligula's Basement door - Open the door instead of moving it back and forth. }
+IF 03CA:   object $2703 exists  // #AB_CASDORLOK at 2168.644 1619.43 1000.3 
+THEN
+  IF and
+    $ONMISSION == 1
+    30@ == 1
+  THEN
+    Object.Angle($2703) = 270.0
+    30@ = 0
+  END
+  IF and
+    $ONMISSION == 0
+    30@ == 0
+  THEN
+    Object.Angle($2703) = 3.0  // original value is 270.0
+    30@ = 1
+  END
+END 
 jump @EHIGAT_57 
 
 :EHIGAT_RESTORE
