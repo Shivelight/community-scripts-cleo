@@ -12,6 +12,10 @@ I use Junior_Djjr's unofficial 4.3 version as the base.
 
 ## Changes
 
+### 2022-08-23
+
+- Restore Caligula basement door during Breaking the Bank at Caligula's mission.
+
 ### 2022-08-17
 
 - Fix player can't leave Ammu-Nation during Doberman mission. Although, this will allow player to enter Ammu-Nation (AMMUN4) from the start.
