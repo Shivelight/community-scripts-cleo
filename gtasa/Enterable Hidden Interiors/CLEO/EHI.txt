@@ -409,6 +409,20 @@ then
   Object.Angle($2703) = 270.0
 end
 
+{ Easter Basin Aircraft Carrier }
+if 03CA: object $5290 exists
+then
+  01BC: put_object $5290 at -1465.797 501.289 1.145
+end
+if 03CA: object $5291 exists
+then
+  01BC: put_object $5291 at -1414.453 516.453 16.688
+end
+if 03CA: object $5292 exists
+then
+  01BC: put_object $5292 at -1456.719 501.297 16.953
+end
+
 return_script_event
 
 :EHIDES
