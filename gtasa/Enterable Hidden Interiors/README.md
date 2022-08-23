@@ -15,6 +15,7 @@ I use Junior_Djjr's unofficial 4.3 version as the base.
 ### 2022-08-23
 
 - Restore Caligula basement door during Breaking the Bank at Caligula's mission.
+- Restore Easter Basin aircraft carrier platform before saving to avoid stuck objects / bad save.
 
 ### 2022-08-17
 
