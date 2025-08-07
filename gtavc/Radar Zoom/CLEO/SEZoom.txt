@@ -1,0 +1,81 @@
+{$CLEO .cs}
+
+3@ = 84
+if 
+  does_file_exist "CLEO\SEZoom.dat"
+goto_if_false @Noname_103
+  2@ = open_file "CLEO\SEZoom.dat" {mode} 114
+  scan_file 2@ {format} "%x" {var_nValues} 1@ {var_values} 0@ 
+if 
+  1@ == 1
+goto_if_false @Noname_103
+set_lvar_int_to_lvar_int 3@ = 0@
+
+:Noname_103
+4@ = 180.0
+6@ = 0
+
+:Noname_120
+wait 10
+if 
+05EE:   is_key_pressed {keyCode} 3@
+goto_if_false @Noname_188
+TIMERA = 0
+4@ = 350.0
+5@ = 0.0
+05DF: write_memory {address} 9915372 {size} 4 {value} 4@ {vp} 0
+6@ = 1
+
+:Noname_188
+if 
+  4@ >= 180.0
+goto_if_false @Noname_347
+if 
+  TIMERA > 1000
+goto_if_false @Noname_303
+4@ -= 10.0
+5@ += 10.0
+if 
+  180.0 > 4@
+goto_if_false @Noname_296
+4@ = 180.0
+5@ = 170.0
+6@ = 0
+
+:Noname_296
+goto @Noname_347
+
+:Noname_303
+if 
+  6@ == 1
+goto_if_false @Noname_347
+05DF: write_memory {address} 10538964 {size} 4 {value} 1 {vp} 1
+05DF: write_memory {address} 9932048 {size} 4 {value} 1 {vp} 1
+
+:Noname_347
+05DF: write_memory {address} 5004501 {size} 4 {value} 4@ {vp} 1
+05DF: write_memory {address} 5004582 {size} 4 {value} 4@ {vp} 1
+05DF: write_memory {address} 6881028 {size} 4 {value} 5@ {vp} 0
+05DF: write_memory {address} 6881036 {size} 4 {value} 4@ {vp} 0
+goto @Noname_120
+6956: 
+6563: 
+4320: 
+7469: 
+2079: 
+6152: 
+6164: 
+2072: 
+6F5A: 
+6D6F: 
+6220: 
+2079: 
+7073: 
+6361: 
+6565: 
+6E69: 
+7473: 
+6965: 
+hex
+ 6E
+end
